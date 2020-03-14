@@ -49,6 +49,22 @@ function App() {
       handleAlert({ type: "danger", text: "Charge cannot be empty" });
     }
   };
+
+  // clear all item
+  const clearAllExpenses = () => {
+    setExpenses([]);
+  };
+  // delete item
+  const deleteExpense = id => {
+    const tempExpenses = expenses.filter(curId => curId.id !== id);
+    console.log(tempExpenses);
+
+    setExpenses(tempExpenses);
+    handleAlert({ type: "danger", text: "Expanse Deleted" });
+  };
+  const editExpense = id => {
+    console.log(`${id} edit`);
+  };
   return (
     <>
       {alert.show && <Alert type={alert.type} text={alert.text} />}
@@ -62,7 +78,12 @@ function App() {
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
         />
-        <ExpenseList expenses={expenses} />
+        <ExpenseList
+          expenses={expenses}
+          clearAllExpenses={clearAllExpenses}
+          deleteExpense={deleteExpense}
+          editExpense={editExpense}
+        />
       </main>
       <h1>
         total spending :{" "}
