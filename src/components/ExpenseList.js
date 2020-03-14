@@ -1,25 +1,22 @@
 import React from "react";
 import Item from "./ExpenseItem";
 import { MdDelete } from "react-icons/md";
-
-const ExpanseList = ({ expenses }) => {
-  console.log(expenses);
-
+const ExpenseList = ({ expenses }) => {
   return (
-    <div>
-      <ul>
-        {expenses.map(expenses => {
-          return <Item key={expenses.id} expense={expenses}></Item>;
+    <>
+      <ul className="list">
+        {expenses.map(expense => {
+          return <Item key={expense.id} expense={expense} />;
         })}
       </ul>
       {expenses.length > 0 && (
         <button className="btn">
-          Clear Expenses
+          clear expenses
           <MdDelete className="btn-icon" />
         </button>
       )}
-    </div>
+    </>
   );
 };
 
-export default ExpanseList;
+export default ExpenseList;
