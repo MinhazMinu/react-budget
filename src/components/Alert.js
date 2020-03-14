@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-function Alert(props) {
-  return (
-    <div>
-      <h2>hello alert</h2>
-    </div>
-  );
-}
+const Alert = () => {
+    return (
+        <div>
+            <h1>alert</h1>
+        </div>
+    );
+};
 
 export default Alert;

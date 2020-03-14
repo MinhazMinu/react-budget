@@ -1,14 +1,15 @@
 import React from "react";
 import Item from "./ExpenseItem";
 import { MdDelete } from "react-icons/md";
-import { FaBeer } from "react-icons/fa";
 
-const Expenselist = ({ expenses }) => {
+const ExpanseList = ({ expenses }) => {
+  console.log(expenses);
+
   return (
-    <>
-      <ul className="list">
+    <div>
+      <ul>
         {expenses.map(expenses => {
-          return <Item key={expenses.id} expenses={expenses}></Item>;
+          return <Item key={expenses.id} expense={expenses}></Item>;
         })}
       </ul>
       {expenses.length > 0 && (
@@ -17,8 +18,8 @@ const Expenselist = ({ expenses }) => {
           <MdDelete className="btn-icon" />
         </button>
       )}
-    </>
+    </div>
   );
 };
 
-export default Expenselist;
+export default ExpanseList;

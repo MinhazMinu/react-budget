@@ -1,8 +1,8 @@
 import React from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
 
-const ExpenseItem = ({ expenses }) => {
-  const { id, charge, amount } = expenses;
+const ExpenseItem = ({ expense }) => {
+  const { id, charge, amount } = expense;
   return (
     <li className="item">
       <div className="info">
@@ -10,10 +10,10 @@ const ExpenseItem = ({ expenses }) => {
         <span className="amount">${amount}</span>
       </div>
       <div>
-        <button className="edit-btn" aria-label="Edit button">
+        <button className="edit-btn" aria-label="edit-button">
           <MdEdit />
         </button>
-        <button className="clear-btn" aria-label="Delete button">
+        <button className="clear-btn" aria-label="Delete-button">
           <MdDelete />
         </button>
       </div>

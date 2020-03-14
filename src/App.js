@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 
 import "./App.css";
-import Expenselist from "./components/Expenselist";
-import ExpenseForm from "./components/ExpenseForm";
 import Alert from "./components/Alert";
-import uuid from "uuid/v4";
+import ExpenseForm from "./components/ExpenseForm";
+import ExpanseList from "./components/ExpanseList";
+import { v4 as uuid } from "uuid";
 
-const intialExpenses = [
+const initialExpenses = [
   { id: uuid(), charge: "rent", amount: 1600 },
-  { id: uuid(), charge: "car payment", amount: 4600 },
-  { id: uuid(), charge: "creadit card bill", amount: 1200 }
+  { id: uuid(), charge: "car payment", amount: 600 },
+  { id: uuid(), charge: "card bill", amount: 1600 }
 ];
 
 function App() {
-  const [expenses, setExpenses] = useState(intialExpenses);
+  // *******State Variable*********
+  const [expenses, setExpense] = useState(initialExpenses);
 
   return (
     <div>
@@ -21,14 +22,15 @@ function App() {
       <h1>budget calculator</h1>
       <main className="App">
         <ExpenseForm></ExpenseForm>
-        <Expenselist expenses={expenses}></Expenselist>
+        <ExpanseList expenses={expenses}></ExpanseList>
       </main>
       <h1>
-        text spending :
+        total spending:{" "}
         <span className="total">
-          ${""}
-          {expenses.reduce((acc, curr) => {
-            return (acc += curr.amount);
+          $
+          {expenses.reduce((sum, i) => {
+            sum = sum + i.amount;
+            return sum;
           }, 0)}
         </span>
       </h1>
