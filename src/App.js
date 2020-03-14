@@ -19,6 +19,10 @@ function App() {
   const [amount, setAmount] = useState("");
   const [alert, setAlert] = useState({ show: false });
 
+  // edit
+
+  const [edit, setEdit] = useState(false);
+
   //
   // ************* functionality *******************
   const handleCharge = e => {
@@ -53,6 +57,7 @@ function App() {
   // clear all item
   const clearAllExpenses = () => {
     setExpenses([]);
+    handleAlert({ type: "danger", text: "All Expanse Deleted" });
   };
   // delete item
   const deleteExpense = id => {
@@ -62,9 +67,7 @@ function App() {
     setExpenses(tempExpenses);
     handleAlert({ type: "danger", text: "Expanse Deleted" });
   };
-  const editExpense = id => {
-    console.log(`${id} edit`);
-  };
+  const editExpense = id => {};
   return (
     <>
       {alert.show && <Alert type={alert.type} text={alert.text} />}
@@ -77,6 +80,7 @@ function App() {
           handleAmount={handleAmount}
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
+          edit={edit}
         />
         <ExpenseList
           expenses={expenses}
