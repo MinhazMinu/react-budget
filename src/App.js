@@ -3,7 +3,7 @@ import "./App.css";
 import ExpenseList from "./components/ExpenseList";
 import ExpenseForm from "./components/ExpenseForm";
 import Alert from "./components/Alert";
-import { v4 as uuid } from "uuid";
+import uuid from "uuid/v4";
 const initialExpenses = [
   { id: uuid(), charge: "rent", amount: 1600 },
   { id: uuid(), charge: "car payment", amount: 400 },
@@ -17,17 +17,20 @@ function App() {
   const [charge, setCharge] = useState("");
   // single amount
   const [amount, setAmount] = useState("");
+  // alert
   const [alert, setAlert] = useState({ show: false });
-
   // edit
-
   const [edit, setEdit] = useState(false);
-
-  //
+  // edit item
+  const [id, setId] = useState(0);
   // ************* functionality *******************
+  // handle charge
+
   const handleCharge = e => {
     setCharge(e.target.value);
   };
+  // handle amount
+
   const handleAmount = e => {
     setAmount(e.target.value);
   };
@@ -39,35 +42,54 @@ function App() {
     }, 3000);
   };
 
-  // handle submite
+  // handle submit
+
   const handleSubmit = e => {
     e.preventDefault();
-    if (charge != "" && amount > 0) {
-      const singleExpanse = { id: uuid(), charge, amount };
-      setExpenses([...expenses, singleExpanse]);
+    if (charge !== "" && amount > 0) {
+      if (edit) {
+        let tempExpenses = expenses.map(item => {
+          return item.id === id ? { ...item, charge, amount } : item;
+        });
+        setExpenses(tempExpenses);
+        setEdit(false);
+        handleAlert({ type: "success", text: "item edited" });
+      } else {
+        const singleExpense = { id: uuid(), charge, amount };
+        setExpenses([...expenses, singleExpense]);
+        handleAlert({ type: "success", text: "item added" });
+      }
       setCharge("");
       setAmount("");
-      handleAlert({ type: "success", text: "item added" });
     } else {
-      // handle Alert
-      handleAlert({ type: "danger", text: "Charge cannot be empty" });
+      // handle alert called
+      handleAlert({
+        type: "danger",
+        text: `charge can't be empty value and amount value has to be bigger than zero`
+      });
     }
   };
-
-  // clear all item
-  const clearAllExpenses = () => {
+  // clear all items
+  const clearItems = () => {
     setExpenses([]);
-    handleAlert({ type: "danger", text: "All Expanse Deleted" });
+    handleAlert({ type: "danger", text: "all items deleted" });
   };
-  // delete item
-  const deleteExpense = id => {
-    const tempExpenses = expenses.filter(curId => curId.id !== id);
-    console.log(tempExpenses);
-
+  // handle delete
+  const handleDelete = id => {
+    let tempExpenses = expenses.filter(item => item.id !== id);
     setExpenses(tempExpenses);
-    handleAlert({ type: "danger", text: "Expanse Deleted" });
+    handleAlert({ type: "danger", text: "item deleted" });
   };
-  const editExpense = id => {};
+  // handle edit
+  const handleEdit = id => {
+    let expense = expenses.find(item => item.id === id);
+    let { charge, amount } = expense;
+    setCharge(charge);
+    setAmount(amount);
+    setEdit(true);
+    setId(id);
+  };
+
   return (
     <>
       {alert.show && <Alert type={alert.type} text={alert.text} />}
@@ -84,9 +106,9 @@ function App() {
         />
         <ExpenseList
           expenses={expenses}
-          clearAllExpenses={clearAllExpenses}
-          deleteExpense={deleteExpense}
-          editExpense={editExpense}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          clearItems={clearItems}
         />
       </main>
       <h1>

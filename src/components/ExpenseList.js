@@ -1,12 +1,7 @@
 import React from "react";
 import Item from "./ExpenseItem";
 import { MdDelete } from "react-icons/md";
-const ExpenseList = ({
-  expenses,
-  clearAllExpenses,
-  deleteExpense,
-  editExpense
-}) => {
+const ExpenseList = ({ expenses, handleEdit, handleDelete, clearItems }) => {
   return (
     <>
       <ul className="list">
@@ -15,14 +10,14 @@ const ExpenseList = ({
             <Item
               key={expense.id}
               expense={expense}
-              deleteExpense={deleteExpense}
-              editExpense={editExpense}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
             />
           );
         })}
       </ul>
       {expenses.length > 0 && (
-        <button className="btn" onClick={clearAllExpenses}>
+        <button className="btn" onClick={clearItems}>
           clear expenses
           <MdDelete className="btn-icon" />
         </button>
