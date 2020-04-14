@@ -3,7 +3,7 @@ import "./App.css";
 import { v4 as uuid } from "uuid";
 import ExpensesForm from "./Components/ExpensesForm";
 import ExpensesList from "./Components/ExpensesList";
-import { notifySuccess, notifyError } from "./Components/Alert";
+import { notifySuccess, notifyError, notifyWarning } from "./Components/Alert";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -56,6 +56,22 @@ function App() {
     }
   };
 
+  const handleEditItem = (id) => {
+    const expense = expenses.find((item) => item.id === id);
+    setCharge(expense.charge);
+    setAmount(expense.amount);
+  };
+
+  const handleDeleteItem = (id) => {
+    const remainingItem = expenses.filter((expense) => expense.id !== id);
+    setExpenses(remainingItem);
+    notifyWarning();
+  };
+
+  const handleClearItem = () => {
+    setExpenses([]);
+  };
+
   return (
     <>
       <h1>budget calculator</h1>
@@ -69,7 +85,12 @@ function App() {
           handleSubmit={handleSubmit}
         />
 
-        <ExpensesList expenses={expenses} />
+        <ExpensesList
+          expenses={expenses}
+          handleClearItem={handleClearItem}
+          handleDeleteItem={handleDeleteItem}
+          handleEditItem={handleEditItem}
+        />
       </main>
       <h1>
         total spending :{" "}
