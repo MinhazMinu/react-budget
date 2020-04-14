@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
 import { v4 as uuid } from "uuid";
-import Alert from "./Components/Alert";
 import ExpensesForm from "./Components/ExpensesForm";
 import ExpensesList from "./Components/ExpensesList";
+import { notifySuccess, notifyError } from "./Components/Alert";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const initialExpenses = [
@@ -35,6 +37,7 @@ function App() {
   const handleAmount = (e) => {
     setAmount(parseFloat(e.target.value));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (charge !== "" && amount > 0) {
@@ -44,17 +47,19 @@ function App() {
         amount,
       };
       setExpenses([...expenses, singleExpense]);
+      notifySuccess();
       setCharge("");
       setAmount("");
     } else {
       // alert
+      notifyError();
     }
   };
 
   return (
     <>
-      <Alert />
       <h1>budget calculator</h1>
+      <ToastContainer />
       <main className="App">
         <ExpensesForm
           charge={charge}
