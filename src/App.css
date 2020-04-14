@@ -29,8 +29,12 @@ h1 {
   width: 90%;
   background: var(--mainWhite);
   padding-bottom: 2rem;
-  border-radius: 2px;
+  border-radius: 5px;
 }
+.view {
+  min-height: 100vh;
+}
+
 .form-center {
   display: flex;
   padding: 0 1rem;
