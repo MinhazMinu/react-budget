@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { v4 as uuid } from "uuid";
 import ExpensesForm from "./Components/ExpensesForm";
@@ -13,23 +13,30 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const initialExpenses = [
-    {
-      id: uuid(),
-      charge: "rent",
-      amount: 1203,
-    },
-    {
-      id: uuid(),
-      charge: "rent",
-      amount: 1203,
-    },
-    {
-      id: uuid(),
-      charge: "rent",
-      amount: 1203,
-    },
-  ];
+  // const initialExpenses = [
+  //   {
+  //     id: uuid(),
+  //     charge: "rent",
+  //     amount: 1203,
+  //   },
+  //   {
+  //     id: uuid(),
+  //     charge: "rent",
+  //     amount: 1203,
+  //   },
+  //   {
+  //     id: uuid(),
+  //     charge: "rent",
+  //     amount: 1203,
+  //   },
+  // ];
+  const initialExpenses = localStorage.getItem("expenses")
+    ? localStorage.getItem(JSON.parse("expenses"))
+    : [];
+
+  // const rememberMe = localStorage.getItem("expenses") === "true";
+  // const initialExpenses = rememberMe ? localStorage.getItem("expenses") : [];
+
   // ====================State value==============================
   const [expenses, setExpenses] = useState(initialExpenses);
   const [charge, setCharge] = useState("");
@@ -38,9 +45,14 @@ function App() {
   const [id, setId] = useState(0);
 
   // ==================== Function ==============================
+  useEffect(() => {
+    localStorage.setItem("expenses", expenses ? JSON.stringify(expenses) : "");
+  }, [expenses]);
+
   const handleCharge = (e) => {
     setCharge(e.target.value);
   };
+
   const handleAmount = (e) => {
     setAmount(parseFloat(e.target.value));
   };
@@ -87,6 +99,7 @@ function App() {
   const handleDeleteItem = (id) => {
     const remainingItem = expenses.filter((expense) => expense.id !== id);
     setExpenses(remainingItem);
+
     notifyWarning();
   };
 
