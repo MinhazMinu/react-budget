@@ -7,6 +7,11 @@ export const notifySuccess = () => {
     position: toast.POSITION.TOP_RIGHT,
   });
 };
+export const notifyInfo = () => {
+  toast.info("Item Edited!", {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+};
 export const notifyWarning = () => {
   toast.warning("Item Deleted", {
     position: toast.POSITION.TOP_RIGHT,

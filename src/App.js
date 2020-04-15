@@ -3,7 +3,12 @@ import "./App.css";
 import { v4 as uuid } from "uuid";
 import ExpensesForm from "./Components/ExpensesForm";
 import ExpensesList from "./Components/ExpensesList";
-import { notifySuccess, notifyError, notifyWarning } from "./Components/Alert";
+import {
+  notifySuccess,
+  notifyError,
+  notifyWarning,
+  notifyInfo,
+} from "./Components/Alert";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -29,6 +34,8 @@ function App() {
   const [expenses, setExpenses] = useState(initialExpenses);
   const [charge, setCharge] = useState("");
   const [amount, setAmount] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState(0);
 
   // ==================== Function ==============================
   const handleCharge = (e) => {
@@ -41,13 +48,23 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (charge !== "" && amount > 0) {
-      const singleExpense = {
-        id: uuid(),
-        charge,
-        amount,
-      };
-      setExpenses([...expenses, singleExpense]);
-      notifySuccess();
+      if (edit) {
+        const tempExpense = expenses.map((item) => {
+          return item.id === id ? { ...item, charge, amount } : item;
+        });
+        setExpenses(tempExpense);
+        notifyInfo();
+        setEdit(false);
+      } else {
+        const singleExpense = {
+          id: uuid(),
+          charge,
+          amount,
+        };
+        setExpenses([...expenses, singleExpense]);
+        notifySuccess();
+      }
+
       setCharge("");
       setAmount("");
     } else {
@@ -57,9 +74,14 @@ function App() {
   };
 
   const handleEditItem = (id) => {
+    setEdit(true);
     const expense = expenses.find((item) => item.id === id);
+
     setCharge(expense.charge);
     setAmount(expense.amount);
+    setId(id);
+    // const remainingItem = expenses.filter((item) => item.id !== expense.id);
+    // setExpenses([...remainingItem, { id, charge, amount }]);
   };
 
   const handleDeleteItem = (id) => {
@@ -83,6 +105,7 @@ function App() {
           handleCharge={handleCharge}
           handleAmount={handleAmount}
           handleSubmit={handleSubmit}
+          edit={edit}
         />
 
         <ExpensesList
@@ -95,7 +118,7 @@ function App() {
       <h1>
         total spending :{" "}
         <span className="total">
-          {expenses.reduce((sum, i) => (sum += i.amount), 0)}
+          {expenses.reduce((sum, i) => (sum += parseFloat(i.amount)), 0)}
         </span>{" "}
       </h1>
     </>
