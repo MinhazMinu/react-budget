@@ -31,7 +31,7 @@ function App() {
   //   },
   // ];
   const initialExpenses = localStorage.getItem("expenses")
-    ? localStorage.getItem(JSON.parse("expenses"))
+    ? JSON.parse(localStorage.getItem("expenses"))
     : [];
 
   // const rememberMe = localStorage.getItem("expenses") === "true";
